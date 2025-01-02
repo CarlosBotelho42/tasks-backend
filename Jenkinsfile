@@ -4,7 +4,7 @@ pipeline {
          maven "MAVEN_LOCAL"
     }
     stages {
-        stage ('Build Backend'){
+        stage ('Build BackEnd'){
             steps{
                 sh 'mvn clean package -DskipTests=true'
             }
@@ -32,6 +32,11 @@ pipeline {
                 // timeout(time: 1, unit: 'MINUTES') {
                 //     waitForQualityGate abortPipeline: true
                 //}
+            }
+        }
+         stage ('Deploy BackEnd'){
+            steps{
+                deploy adapters: [tomcat9(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8081/')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war '
             }
         }
     }
