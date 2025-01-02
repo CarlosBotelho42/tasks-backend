@@ -22,7 +22,6 @@ pipeline {
                 withSonarQubeEnv('SONAR_LOCAL') {
                     sh "${scannerHome}/bin/sonar-scanner -e -Dsonar.projectKey=DeployBack -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_f96d223bbf8ede63e2683953c1b228f30d233ad1 -Dsonar.java.binaries=target -Dsonar.coverage.exclusions=**/.mvn/**,**/src/test/**,**/model/**,**/Aplication.java"
                 }
-
             }
         }
         stage ('Quality Gate'){
@@ -37,6 +36,12 @@ pipeline {
          stage ('Deploy BackEnd'){
             steps{
                 deploy adapters: [tomcat9(credentialsId: 'TomcatLogin', path: '', url: 'http://localhost:8081/')], contextPath: 'tasks-backend', war: 'target/tasks-backend.war '
+            }
+        }
+          stage ('API Test'){
+            steps{
+                git credentialsId: 'github_login', url: 'https://github.com/CarlosBotelho42/tastk-api-test.git'
+                sh 'mvn test'
             }
         }
     }
