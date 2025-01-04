@@ -65,6 +65,12 @@ pipeline {
         always {
             junit allowEmptyResults: true, stdioRetention: '', testResults: 'target/surefire-reports/*.xml, api-test/target/surefire-reports/*.xml'
         }
+        unsuccessful {
+            emailext attachLog: true, body: 'OLha o log la bobo', subject: 'Build $BUILD_NUMBER parou ', to: 'carlospiece55@gmail.com'
+        }
+        fixed {
+            emailext attachLog: true, body: 'OLha o log la bobo', subject: 'Deu certo o build!!! ', to: 'carlospiece55@gmail.com'
+        }
         
     }
 }

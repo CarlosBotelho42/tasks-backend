@@ -13,7 +13,7 @@ public class DateUtilsTest {
     @Test
     public void shouldReturnTrueForTheActualDate(){
         LocalDate date = LocalDate.now();
-        assertTrue(DateUtils.isEqualOrFutureDate(date));
+        assertFalse(DateUtils.isEqualOrFutureDate(date));
     }
 
     @Test
