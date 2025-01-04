@@ -64,6 +64,7 @@ pipeline {
     post {
         always {
             junit allowEmptyResults: true, stdioRetention: '', testResults: 'target/surefire-reports/*.xml, api-test/target/surefire-reports/*.xml'
+            archiveArtifacts artifacts: 'target/tasks-backend.war, frontend/target/tasks.war', followSymlinks: false, onlyIfSuccessful: true
         }
         unsuccessful {
             emailext attachLog: true, body: 'OLha o log la bobo', subject: 'Build $BUILD_NUMBER parou ', to: 'carlospiece55@gmail.com'
@@ -74,3 +75,4 @@ pipeline {
         
     }
 }
+
